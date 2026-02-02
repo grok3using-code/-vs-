@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>十四五 vs 十五五｜互動比較（Level 1 配對｜Level 2 MC）</title>
+  <style>
+    :root{
+      --bg:#f7fafc;
+      --card:#ffffff;
+      --ink:#0f172a;
+      --muted:#475569;
+      --line:#e2e8f0;
+      --good:#16a34a;
+      --bad:#dc2626;
+      --accent:#2563eb;
+      --accent2:#7c3aed;
+      --shadow:0 10px 25px rgba(15,23,42,.08);
+      --r:18px;
+      --pad:16px;
+      --fs:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", Arial;
+      background: radial-gradient(1200px 800px at 20% 0%, #eef2ff, transparent 60%),
+                  radial-gradient(1200px 800px at 90% 10%, #fce7f3, transparent 55%),
+                  var(--bg);
+      color:var(--ink);
+    }
+    header{
+      padding:22px 18px 12px;
+      max-width:1100px;
+      margin:0 auto;
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .brand{
+      display:flex; gap:12px; align-items:center;
+    }
+    .logo{
+      width:46px; height:46px; border-radius:16px;
+      background: linear-gradient(135deg, #60a5fa, #a78bfa);
+      box-shadow: var(--shadow);
+      display:grid; place-items:center;
+      flex:0 0 auto;
+    }
+    .logo svg{width:30px;height:30px;opacity:.95}
+    h1{font-size:22px; margin:0 0 4px}
+    .sub{color:var(--muted); font-size:14px; line-height:1.35}
+    .tabs{
+      display:flex; gap:10px; align-items:center;
+      padding:6px;
+      background: rgba(255,255,255,.7);
+      border:1px solid var(--line);
+      border-radius: 999px;
+      box-shadow: 0 6px 18px rgba(15,23,42,.06);
+    }
+    .tab{
+      border:0; cursor:pointer;
+      padding:10px 14px;
+      border-radius:999px;
+      background:transparent;
+      color:var(--muted);
+      font-size:14px;
+      font-weight:700;
+      transition:.15s;
+      white-space:nowrap;
+    }
+    .tab.active{
+      background:#ffffff;
+      color:var(--ink);
+      box-shadow: 0 8px 18px rgba(15,23,42,.10);
+      border:1px solid rgba(2,6,23,.06);
+    }
+
+    main{max-width:1100px; margin:0 auto; padding: 0 18px 26px}
+    .panel{
+      background: rgba(255,255,255,.78);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+    .row{display:flex; gap:14px; flex-wrap:wrap}
+    .grow{flex:1 1 420px}
+    .side{flex:0 0 320px}
+    .hint{
+      padding: 12px 12px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(37,99,235,.10), rgba(124,58,237,.10));
+      border: 1px dashed rgba(37,99,235,.25);
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.5;
+    }
+    .hint b{color:var(--ink)}
+    .controls{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+    .btn{
+      border:0; cursor:pointer;
+      padding:10px 12px;
+      border-radius: 14px;
+      background: #ffffff;
+      border: 1px solid rgba(2,6,23,.10);
+      color:var(--ink);
+      font-size:14px;
+      font-weight:800;
+      box-shadow: 0 6px 14px rgba(15,23,42,.06);
+      transition: transform .05s, box-shadow .15s;
+      user-select:none;
+    }
+    .btn:active{transform: translateY(1px); box-shadow: 0 4px 10px rgba(15,23,42,.08)}
+    .btn.primary{
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color:white;
+      border:0;
+    }
+    .btn.ghost{
+      background: transparent;
+      box-shadow:none;
+      border:1px solid rgba(2,6,23,.12);
+    }
+    .btn.bad{
+      background: rgba(220,38,38,.08);
+      border-color: rgba(220,38,38,.22);
+    }
+    .btn.good{
+      background: rgba(22,163,74,.08);
+      border-color: rgba(22,163,74,.22);
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.7);
+      border:1px solid var(--line);
+      font-size:13px;
+      color:var(--muted);
+      font-weight:700;
+    }
+    .pill span{color:var(--ink)}
+    .grid3{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(240px,1fr));
+      gap: 12px;
+    }
+    @media (max-width: 860px){
+      .grid3{grid-template-columns:1fr}
+      .side{flex: 1 1 320px}
+    }
+
+    /* Matching */
+    .pool{
+      min-height: 96px;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.65);
+    }
+    .cards{display:flex; flex-wrap:wrap; gap:10px}
+    .card{
+      background: var(--card);
+      border: 1px solid rgba(2,6,23,.10);
+      border-radius: 16px;
+      padding: 10px 10px;
+      box-shadow: 0 8px 18px rgba(15,23,42,.06);
+      min-width: 210px;
+      max-width: 320px;
+      cursor:pointer;
+      user-select:none;
+      position:relative;
+      transition: transform .06s, border-color .12s;
+      font-size: var(--fs);
+      line-height:1.35;
+    }
+    .card small{display:block; color:var(--muted); font-size:12px; margin-top:4px}
+    .card.selected{outline: 3px solid rgba(37,99,235,.35); border-color: rgba(37,99,235,.40); transform: translateY(-1px)}
+    .card.correct{outline: 3px solid rgba(22,163,74,.35); border-color: rgba(22,163,74,.45)}
+    .card.wrong{outline: 3px solid rgba(220,38,38,.28); border-color: rgba(220,38,38,.40)}
+    .slot{
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(2,6,23,.10);
+      background: rgba(255,255,255,.72);
+      min-height: 160px;
+      position: relative;
+    }
+    .slot h3{
+      margin:0 0 8px;
+      font-size: 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .slot h3 .tag{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      color:var(--muted);
+      background: rgba(255,255,255,.7);
+      font-weight:800;
+    }
+    .slot .dropHint{
+      color:var(--muted);
+      font-size:13px;
+      margin: 4px 0 10px;
+      line-height:1.35;
+    }
+    .slotTarget{
+      position:absolute;
+      inset:0;
+      border-radius: 16px;
+    }
+    .slotTarget.active{outline:3px dashed rgba(37,99,235,.35)}
+    .slot .cards{gap:10px}
+    .toast{
+      margin-top:10px;
+      border-radius: 16px;
+      padding: 10px 12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.7);
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.5;
+    }
+    .toast strong{color:var(--ink)}
+    .divider{height:1px; background: var(--line); margin: 12px 0}
+
+    /* MC */
+    .qbox{
+      padding: 14px;
+      border-radius: 18px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.72);
+    }
+    .qno{color:var(--muted); font-weight:800; font-size:13px}
+    .qtext{font-size:20px; font-weight:900; margin: 6px 0 12px; line-height:1.35}
+    .opt{
+      width:100%;
+      text-align:left;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(2,6,23,.10);
+      background: #ffffff;
+      box-shadow: 0 6px 14px rgba(15,23,42,.06);
+      cursor:pointer;
+      font-size:18px;
+      font-weight:800;
+      margin-bottom:10px;
+      transition:.12s;
+    }
+    .opt:hover{transform: translateY(-1px)}
+    .opt.correct{border-color: rgba(22,163,74,.55); outline:3px solid rgba(22,163,74,.25)}
+    .opt.wrong{border-color: rgba(220,38,38,.55); outline:3px solid rgba(220,38,38,.20)}
+    .explain{
+      margin-top:10px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(2,6,23,.10);
+      background: rgba(248,250,252,.9);
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.55;
+    }
+
+    footer{
+      max-width:1100px;
+      margin: 0 auto;
+      padding: 0 18px 18px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      opacity:.9;
+    }
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      padding:2px 6px;
+      border-radius:8px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.7);
+      color: var(--ink);
+      font-weight:800;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="logo" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M4 18.5c3.6-3.9 6.6-3.9 10.2 0 2.1 2.3 4.3 2.3 5.8.7" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M5 7.5h14" stroke="white" stroke-width="2.2" stroke-linecap="round"/>
+        <path d="M8 6.7v12.2M16 6.7v12.2" stroke="white" stroke-width="2.2" stroke-linecap="round" opacity=".95"/>
+      </svg>
+    </div>
+    <div>
+      <h1>十四五 vs 十五五｜互動比較</h1>
+      <div class="sub">Level 1：配對（點選卡片 → 點選分類）｜Level 2：多項選擇（選項會隨機洗牌）</div>
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist" aria-label="Levels">
+    <button class="tab active" id="tab-match" role="tab" aria-selected="true">Level 1 配對</button>
+    <button class="tab" id="tab-mc" role="tab" aria-selected="false">Level 2 MC</button>
+  </div>
+</header>
+
+<main>
+  <!-- Level 1 -->
+  <section id="view-match" class="panel" role="tabpanel" aria-labelledby="tab-match">
+    <div class="row">
+      <div class="grow">
+        <div class="hint">
+          <b>玩法：</b>先點一張卡片（會發光），再點「十四五 / 十五五 / 兩者皆是」其中一格，把卡片放入。放好後按「檢查答案」。
+          <div style="margin-top:6px">小貼士：找年份、是否「草案」、是否「量化指標（%／數字）」等線索。</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+          <div class="pill" title="目前進度"><span id="mProgress">0</span>/12 已放置</div>
+          <div class="pill" title="得分"><span id="mScore">0</span> 分</div>
+          <div class="pill" title="提示"><span id="mHintCount">2</span> 次</div>
+        </div>
+
+        <div class="controls" style="margin-top:10px">
+          <button class="btn primary" id="btnCheck">檢查答案</button>
+          <button class="btn" id="btnHint">提示一下</button>
+          <button class="btn ghost" id="btnReset">重新開始</button>
+        </div>
+
+        <div id="mToast" class="toast" aria-live="polite">
+          <strong>任務：</strong>把 12 張卡片分類，學懂「相同點」與「差異點」。
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="pool" aria-label="卡片池">
+          <div class="cards" id="poolCards"></div>
+        </div>
+
+        <div style="height:12px"></div>
+
+        <div class="grid3" aria-label="分類區">
+          <div class="slot" data-cat="p14">
+            <div class="slotTarget" aria-hidden="true"></div>
+            <h3>十四五規劃 <span class="tag">2021–2025</span></h3>
+            <div class="dropHint">多見：2021、2025、量化目標（如 %／數字）。</div>
+            <div class="cards" id="slot-p14"></div>
+          </div>
+          <div class="slot" data-cat="p15">
+            <div class="slotTarget" aria-hidden="true"></div>
+            <h3>十五五規劃 <span class="tag">2026–2030</span></h3>
+            <div class="dropHint">多見：2026、2030、草案／編制中、未正式頒布。</div>
+            <div class="cards" id="slot-p15"></div>
+          </div>
+          <div class="slot" data-cat="both">
+            <div class="slotTarget" aria-hidden="true"></div>
+            <h3>兩者皆是 <span class="tag">共同點</span></h3>
+            <div class="dropHint">都是國家五年規劃，服務長遠目標（如 2035）。</div>
+            <div class="cards" id="slot-both"></div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="side">
+        <div class="panel" style="padding:14px">
+          <div class="pill"><span>比較框架</span></div>
+          <div style="height:10px"></div>
+          <div class="hint">
+            <b>建議帶學生用三步比較：</b><br/>
+            1) <b>時間</b>（哪五年？）<br/>
+            2) <b>狀態</b>（已通過／草案／編制中？）<br/>
+            3) <b>內容表述</b>（量化指標 vs. 原則/方向）<br/>
+            <div style="margin-top:8px">
+              <b>延伸問答：</b>十四五和十五五如何一起推進 <b>2035 遠景</b>？
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="hint" id="miniSummary">
+            <b>一句話記憶：</b><br/>
+            十四五＝<b>已實施</b>（2021–2025）＋較多<b>量化目標</b>；<br/>
+            十五五＝<b>即將啟動</b>（2026–2030）＋<b>綱要草案</b>待審議；<br/>
+            兩者都為 <b>2035</b> 鋪路。
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Level 2 -->
+  <section id="view-mc" class="panel" role="tabpanel" aria-labelledby="tab-mc" style="display:none">
+    <div class="row">
+      <div class="grow">
+        <div class="hint">
+          <b>玩法：</b>每題 4 個選項（A–D），系統會<b>隨機洗牌</b>選項次序，所以答案不會固定落在某個字母。
+        </div>
+
+        <div class="divider"></div>
+
+        <div>
+          <div class="pill"><span id="mcProgress">0</span>/10 題</div>
+          <div class="pill"><span id="mcScore">0</span> 分</div>
+          <div class="pill">提示：可按 <span class="kbd">R</span> 重新洗牌一套新題序</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="qbox" id="qbox"></div>
+
+        <div class="controls" style="margin-top:12px">
+          <button class="btn primary" id="btnNext" disabled>下一題</button>
+          <button class="btn ghost" id="btnRestartMC">重新開始</button>
+        </div>
+      </div>
+
+      <aside class="side">
+        <div class="panel" style="padding:14px">
+          <div class="pill"><span>技巧卡</span></div>
+          <div style="height:10px"></div>
+          <div class="hint">
+            <b>做 MC 不只是背答案：</b><br/>
+            • 先找「年份」→ 快速鎖定十四五/十五五<br/>
+            • 再看「草案 / 審議」→ 多指十五五現況<br/>
+            • 見到「7%以上、65%」→ 多屬十四五量化指標<br/>
+            <div style="margin-top:10px">
+              <b>最後一關：</b>用 2–3 句寫出「相同點」＋「差異點」。
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer>
+  建議在課室電腦（Windows）以 Chrome / Edge 開啟本 HTML 檔即可使用。<br/>
+  小彩蛋：在 Level 2 按 <span class="kbd">R</span> 可重新隨機洗牌題序與選項。
+</footer>
+
+<script>
+  // ---------- Utilities ----------
+  const $ = (sel) => document.querySelector(sel);
+  const $$ = (sel) => Array.from(document.querySelectorAll(sel));
+
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]]=[a[j],a[i]];
+    }
+    return a;
+  }
+
+  function uid(){
+    return Math.random().toString(16).slice(2) + Date.now().toString(16);
+  }
+
+  // ---------- Tabs ----------
+  const tabMatch = $("#tab-match");
+  const tabMC = $("#tab-mc");
+  const viewMatch = $("#view-match");
+  const viewMC = $("#view-mc");
+
+  function setTab(which){
+    const isMatch = which === "match";
+    tabMatch.classList.toggle("active", isMatch);
+    tabMC.classList.toggle("active", !isMatch);
+    tabMatch.setAttribute("aria-selected", String(isMatch));
+    tabMC.setAttribute("aria-selected", String(!isMatch));
+    viewMatch.style.display = isMatch ? "" : "none";
+    viewMC.style.display = isMatch ? "none" : "";
+  }
+  tabMatch.addEventListener("click", ()=>setTab("match"));
+  tabMC.addEventListener("click", ()=>setTab("mc"));
+
+  // ---------- Level 1: Matching ----------
+  const matchingItemsBase = [
+    { text:"規劃期：2021–2025", cat:"p14", explain:"十四五是第十四個五年規劃（2021–2025）。" },
+    { text:"2021年3月在全國人大通過「十四五規劃和2035遠景目標綱要」", cat:"p14", explain:"十四五綱要於2021年3月十三屆全國人大四次會議通過。" },
+    { text:"提出：全社會研發經費投入年均增長「7%以上」", cat:"p14", explain:"十四五綱要列出研發投入年均增長7%以上的目標。" },
+    { text:"提出：常住人口城鎮化率提高到「65%」", cat:"p14", explain:"十四五綱要提出城鎮化率提高到65%（量化指標）。" },
+
+    { text:"規劃期：2026–2030", cat:"p15", explain:"十五五是第十五個五年規劃（2026–2030）。" },
+    { text:"以「綱要草案」形式於2026年全國人大會議審查", cat:"p15", explain:"公開議程顯示：2026年全國人大會議將審查十五五規劃綱要草案。" },
+    { text:"核心方向：高品質發展取得成效（宏觀穩健、效率提升）", cat:"p15", explain:"教學重點：十五五以高品質發展為主線（方向性表述較多）。" },
+    { text:"核心方向：科技自立自強水準大幅提升", cat:"p15", explain:"教學重點：十五五強調科技自立自強、創新體系效能等。" },
+
+    { text:"都是國家五年規劃，用以描繪發展藍圖", cat:"both", explain:"五年規劃是國家中長期發展的重要藍圖。" },
+    { text:"都與「2035遠景目標」銜接，逐步推進現代化", cat:"both", explain:"十四五、十五五等規劃共同承接2035遠景。" },
+    { text:"都重視：改善民生、提升治理、推動改革", cat:"both", explain:"兩份規劃均關注民生福祉與治理效能等面向。" },
+    { text:"都會透過政策、重大工程與改革措施落實", cat:"both", explain:"規劃需靠政策工具、項目與制度改革推動落地。" }
+  ];
+
+  let matchingItems = [];
+  let selectedCardId = null;
+  let mHintLeft = 2;
+
+  function renderMatching(){
+    // fresh randomized order
+    matchingItems = shuffle(matchingItemsBase).map(x => ({...x, id: uid(), placed:null, status:""}));
+    selectedCardId = null;
+    mHintLeft = 2;
+    $("#mHintCount").textContent = mHintLeft;
+    $("#mScore").textContent = "0";
+    $("#mProgress").textContent = "0";
+    $("#mToast").innerHTML = "<strong>任務：</strong>把 12 張卡片分類，學懂「相同點」與「差異點」。";
+
+    // clear slots
+    ["poolCards","slot-p14","slot-p15","slot-both"].forEach(id => $("#"+id).innerHTML = "");
+
+    // render pool
+    const pool = $("#poolCards");
+    matchingItems.forEach(item=>{
+      const el = document.createElement("div");
+      el.className = "card";
+      el.dataset.id = item.id;
+      el.innerHTML = `${item.text}<small>（點我→再點分類）</small>`;
+      el.addEventListener("click", ()=>selectCard(item.id));
+      pool.appendChild(el);
+    });
+
+    updateMatchingProgress();
+  }
+
+  function selectCard(id){
+    // toggle
+    if(selectedCardId === id){
+      selectedCardId = null;
+    }else{
+      selectedCardId = id;
+    }
+    // reflect ui
+    $$(".card").forEach(c=>c.classList.remove("selected"));
+    if(selectedCardId){
+      const el = document.querySelector(`.card[data-id="${selectedCardId}"]`);
+      if(el) el.classList.add("selected");
+      $("#mToast").innerHTML = "<strong>下一步：</strong>請點選分類區（十四五／十五五／兩者皆是）來放置卡片。";
+    }else{
+      $("#mToast").innerHTML = "<strong>提示：</strong>先點一張卡片，再點分類區。";
+    }
+  }
+
+  function placeSelected(cat){
+    if(!selectedCardId){
+      $("#mToast").innerHTML = "<strong>提示：</strong>你未選卡片～先點一張卡片。";
+      return;
+    }
+    const item = matchingItems.find(x=>x.id===selectedCardId);
+    if(!item) return;
+
+    // move DOM element
+    const el = document.querySelector(`.card[data-id="${item.id}"]`);
+    const target = $("#slot-"+cat);
+    if(el && target){
+      el.classList.remove("selected");
+      // add "撤回" small helper via right click / long press fallback: double click to return
+      el.querySelector("small").textContent = "（雙擊可撤回）";
+      el.ondblclick = ()=>returnToPool(item.id);
+      target.appendChild(el);
+      item.placed = cat;
+      item.status = "";
+    }
+    selectedCardId = null;
+    updateMatchingProgress();
+  }
+
+  function returnToPool(id){
+    const item = matchingItems.find(x=>x.id===id);
+    const el = document.querySelector(`.card[data-id="${id}"]`);
+    if(item && el){
+      item.placed = null;
+      item.status = "";
+      el.classList.remove("correct","wrong","selected");
+      el.querySelector("small").textContent = "（點我→再點分類）";
+      el.ondblclick = null;
+      $("#poolCards").appendChild(el);
+      updateMatchingProgress();
+      $("#mToast").innerHTML = "<strong>已撤回：</strong>卡片回到卡片池。";
+    }
+  }
+
+  function updateMatchingProgress(){
+    const placed = matchingItems.filter(x=>x.placed).length;
+    $("#mProgress").textContent = String(placed);
+  }
+
+  function checkMatching(){
+    let score = 0;
+    let wrongs = [];
+    matchingItems.forEach(item=>{
+      const el = document.querySelector(`.card[data-id="${item.id}"]`);
+      if(!item.placed){
+        if(el) el.classList.remove("correct","wrong");
+        return;
+      }
+      const ok = item.placed === item.cat;
+      if(el){
+        el.classList.remove("correct","wrong");
+        el.classList.add(ok ? "correct" : "wrong");
+      }
+      if(ok){ score += 1; }
+      else{
+        wrongs.push({text:item.text, correct:item.cat, explain:item.explain});
+      }
+    });
+    $("#mScore").textContent = String(score);
+    if(score === matchingItems.length){
+      $("#mToast").innerHTML = "<strong>太好了！</strong>你已完成 Level 1（全對）。可以切去 Level 2 做 MC！";
+    }else{
+      const msg = wrongs.slice(0,3).map(w=>`• ${w.text} → 應屬：${labelCat(w.correct)}`).join("<br/>");
+      $("#mToast").innerHTML = `<strong>完成檢查：</strong>${score}/${matchingItems.length}。<br/>${msg}${wrongs.length>3 ? "<br/>（尚有更多錯誤…）" : ""}`;
+    }
+  }
+
+  function labelCat(cat){
+    if(cat==="p14") return "十四五";
+    if(cat==="p15") return "十五五";
+    return "兩者皆是";
+  }
+
+  function giveHint(){
+    if(mHintLeft<=0){
+      $("#mToast").innerHTML = "<strong>提示已用完～</strong>試試用年份／草案／量化指標去判斷。";
+      return;
+    }
+    // pick one unplaced or wrong placed
+    const candidates = matchingItems.filter(x=>!x.placed || (x.placed && x.placed!==x.cat));
+    if(candidates.length===0){
+      $("#mToast").innerHTML = "<strong>已經很接近！</strong>按「檢查答案」看看。";
+      return;
+    }
+    const pick = candidates[Math.floor(Math.random()*candidates.length)];
+    mHintLeft -= 1;
+    $("#mHintCount").textContent = mHintLeft;
+    // show explain without giving full answer explicitly; provide clue
+    const clue = buildClue(pick);
+    $("#mToast").innerHTML = `<strong>提示：</strong>${clue}`;
+  }
+
+  function buildClue(item){
+    const t = item.text;
+    if(t.includes("2021") || t.includes("7%") || t.includes("65%") || t.includes("2025")){
+      return `這張卡有「年份／量化指標」線索（如 2021、% 或 65%），多半屬於<strong>已實施的規劃</strong>。`;
+    }
+    if(t.includes("2026") || t.includes("2030") || t.includes("草案") || t.includes("審查")){
+      return `這張卡出現「2026／2030／草案／審查」等字眼，提示它與<strong>下一個五年規劃</strong>相關。`;
+    }
+    if(t.includes("兩者") || t.includes("都是") || t.includes("共同") || t.includes("2035")){
+      return `這張卡在講「共同點／長遠目標（如 2035）」：通常是<strong>兩者皆是</strong>。`;
+    }
+    return "想想：它是在講年份（哪五年）、狀態（草案/通過）、還是共同點？";
+  }
+
+  $("#btnCheck").addEventListener("click", checkMatching);
+  $("#btnHint").addEventListener("click", giveHint);
+  $("#btnReset").addEventListener("click", renderMatching);
+
+  // Make clicking slot place
+  $$(".slot").forEach(slot=>{
+    slot.addEventListener("click", ()=>{
+      placeSelected(slot.dataset.cat);
+    });
+  });
+
+  // ---------- Level 2: MC ----------
+  const mcBase = [
+    {
+      q:"「十四五規劃」的規劃期是：",
+      options:["2016–2020","2021–2025","2026–2030","2031–2035"],
+      answer:"2021–2025",
+      explain:"「十四五」是第十四個五年規劃，涵蓋 2021–2025。"
+    },
+    {
+      q:"「十五五規劃」的規劃期是：",
+      options:["2016–2020","2021–2025","2026–2030","2031–2035"],
+      answer:"2026–2030",
+      explain:"「十五五」是第十五個五年規劃，涵蓋 2026–2030。"
+    },
+    {
+      q:"哪一項屬「十四五綱要」常見的量化目標線索？",
+      options:["全社會研發經費投入年均增長7%以上","以綱要草案形式待審議","仍在編制階段（未頒布）","只提出方向，不列數字"],
+      answer:"全社會研發經費投入年均增長7%以上",
+      explain:"十四五綱要列出多項量化指標（例如研發投入年均增長 7% 以上、城鎮化率等）。"
+    },
+    {
+      q:"公開議程顯示：2026年全國人大會議將審查哪一份草案？",
+      options:["第十五個五年規劃綱要草案（十五五）","第十三個五年規劃總結草案","國家安全法修訂草案","2049遠景藍圖草案"],
+      answer:"第十五個五年規劃綱要草案（十五五）",
+      explain:"十四屆全國人大四次會議建議議程包括「審查國民經濟和社會發展第十五個五年規劃綱要草案」。"
+    },
+    {
+      q:"「2035遠景目標」通常要透過哪幾個五年規劃逐步落實？",
+      options:["十四五、十五五、十六五","十五五、十六五、十七五","十二五、十三五、十四五","十一五、十二五、十三五"],
+      answer:"十四五、十五五、十六五",
+      explain:"2035遠景會由連續多個五年規劃承接推進（十四五→十五五→十六五）。"
+    },
+    {
+      q:"如果一張資料卡寫著「2026–2030」，你最應該把它歸到：",
+      options:["十四五","十五五","兩者皆是","以上皆非"],
+      answer:"十五五",
+      explain:"2026–2030 對應第十五個五年規劃（十五五）。"
+    },
+    {
+      q:"比較十四五與十五五，下列哪句最能概括「共同點」？",
+      options:["都是國家五年規劃，用來引導中長期發展","只有十四五才會談到民生","只有十五五才會談到改革","兩者互不相干"],
+      answer:"都是國家五年規劃，用來引導中長期發展",
+      explain:"兩者同屬國家五年規劃制度，核心功能都是規劃未來發展方向與重點。"
+    },
+    {
+      q:"若要最快判斷一項內容屬十四五或十五五，最有效的第一步是：",
+      options:["先找年份/規劃期","先背所有口號","先看講者是誰","先比較字數長短"],
+      answer:"先找年份/規劃期",
+      explain:"年份（2021–2025 vs 2026–2030）是最快的識別線索。"
+    },
+    {
+      q:"下列哪一個角度最適合用來「對比」兩份規劃？",
+      options:["時間＋審議狀態（已通過／草案）＋是否含量化指標","只看封面顏色","只看字體大小","只看圖片多寡"],
+      answer:"時間＋審議狀態（已通過／草案）＋是否含量化指標",
+      explain:"對比要有可觀察的維度：時間、程序狀態、目標表述方式（量化 vs 方向）。"
+    },
+    {
+      q:"下列哪一項最可能同時出現在十四五與十五五的論述中？",
+      options:["與2035遠景目標銜接","只提到2012年前政策","只針對一個省份的小計劃","只談某一位藝人行程"],
+      answer:"與2035遠景目標銜接",
+      explain:"不同五年規劃會承接同一長遠目標（例如 2035 遠景），因此「銜接」屬共同點。"
+    }
+  ];
+
+  let mc = [];
+  let mcIndex = 0;
+  let mcScore = 0;
+  let locked = false;
+
+  function buildMC(){
+    mc = shuffle(mcBase).map(q=>{
+      // shuffle options per question
+      const opts = shuffle(q.options);
+      return {...q, opts, id: uid()};
+    });
+    mcIndex = 0;
+    mcScore = 0;
+    locked = false;
+    $("#mcProgress").textContent = "0";
+    $("#mcScore").textContent = "0";
+    $("#btnNext").disabled = true;
+    renderQuestion();
+  }
+
+  function renderQuestion(){
+    const q = mc[mcIndex];
+    const box = $("#qbox");
+    box.innerHTML = "";
+    const qNo = document.createElement("div");
+    qNo.className = "qno";
+    qNo.textContent = `第 ${mcIndex+1} / ${mc.length} 題`;
+    const qText = document.createElement("div");
+    qText.className = "qtext";
+    qText.textContent = q.q;
+
+    box.appendChild(qNo);
+    box.appendChild(qText);
+
+    const letters = ["A","B","C","D"];
+    q.opts.forEach((opt, i)=>{
+      const b = document.createElement("button");
+      b.className = "opt";
+      b.dataset.opt = opt;
+      b.innerHTML = `<span style="display:inline-block; width:28px; color:rgba(2,6,23,.55); font-weight:900">${letters[i]}.</span> ${opt}`;
+      b.addEventListener("click", ()=>chooseOption(b, q));
+      box.appendChild(b);
+    });
+
+    $("#mcProgress").textContent = String(mcIndex);
+    $("#btnNext").disabled = true;
+    locked = false;
+  }
+
+  function chooseOption(btn, q){
+    if(locked) return;
+    locked = true;
+
+    const chosen = btn.dataset.opt;
+    const opts = $$(".opt");
+    const correct = q.answer;
+
+    // mark
+    opts.forEach(b=>{
+      if(b.dataset.opt === correct) b.classList.add("correct");
+      if(b.dataset.opt === chosen && chosen !== correct) b.classList.add("wrong");
+      b.disabled = true;
+    });
+
+    if(chosen === correct){
+      mcScore += 1;
+      $("#mcScore").textContent = String(mcScore);
+    }
+
+    const exp = document.createElement("div");
+    exp.className = "explain";
+    exp.innerHTML = `<b>解析：</b>${q.explain}`;
+    $("#qbox").appendChild(exp);
+
+    $("#btnNext").disabled = false;
+    $("#mcProgress").textContent = String(mcIndex+1);
+
+    if(mcIndex === mc.length-1){
+      $("#btnNext").textContent = "完成";
+    }else{
+      $("#btnNext").textContent = "下一題";
+    }
+  }
+
+  $("#btnNext").addEventListener("click", ()=>{
+    if(mcIndex === mc.length-1){
+      // show summary
+      const box = $("#qbox");
+      const pct = Math.round((mcScore/mc.length)*100);
+      box.innerHTML = `
+        <div class="qno">完成</div>
+        <div class="qtext">你的得分：${mcScore}/${mc.length}（${pct}%）</div>
+        <div class="explain">
+          <b>回顧：</b><br/>
+          • 十四五＝2021–2025（已實施，量化指標較多）<br/>
+          • 十五五＝2026–2030（綱要草案待審議）<br/>
+          • 兩者都承接 2035 遠景目標
+          <div style="margin-top:10px"><b>挑戰：</b>用 2–3 句寫出「相同點」＋「差異點」。</div>
+        </div>
+      `;
+      $("#btnNext").disabled = true;
+      return;
+    }
+    mcIndex += 1;
+    renderQuestion();
+  });
+
+  $("#btnRestartMC").addEventListener("click", buildMC);
+
+  // Keyboard: R to reshuffle MC
+  window.addEventListener("keydown", (e)=>{
+    if(e.key.toLowerCase()==="r"){
+      buildMC();
+      setTab("mc");
+    }
+  });
+
+  // Init
+  renderMatching();
+  buildMC();
+</script>
+</body>
+</html>
